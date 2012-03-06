@@ -46,9 +46,9 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Last revised March 6, 2012
  * Initial Release
- * @todo Flesh out the 'readme.txt' file
+ * @todo Tune up 'readme.txt'
  * @todo Add shortcode support
- * @todo Add option to only show administrators
+ * @todo Add only show administrators option
  */
 
 /**

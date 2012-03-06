@@ -1,4 +1,4 @@
-=== BNS Featured Category ===
+=== BNS Early Adopter ===
 Contributors: cais
 Donate link: http://buynowshop.com
 Tags: admin
@@ -6,27 +6,24 @@ Requires at least: 3.0
 Tested up to: 3.4
 Stable tag: 0.1
 
-Show off you are an early adopter of WordPress (alpha and/or beta versions)
+Show off you are an early adopter of WordPress (alpha and/or beta versions).
 
 == Description ==
-
-Show off you are an early adopter of WordPress (alpha and/or beta versions)
+Show off you are an early adopter of WordPress (alpha and/or beta versions).
 
 == Installation ==
-
 Read this article for further assistance: http://wpfirstaid.com/2009/12/plugin-installation/
 
 ----
 = Shortcode: bnsea =
-Parameters are very similar to the plugin:
-
-NB: Use the shortcode at your own risk!
+* TBA - Parameters will be very similar to the plugin
 
 == Frequently Asked Questions ==
-
+= Q: Why would I want to use this plugin / widget? =
+A: To show your faith in WordPress code and the developers who write it.
 
 == Screenshots ==
-
+* Appearing soon ...
 
 == Other Notes ==
 * Copyright 2012  Edward Caissie  (email : edward.caissie@gmail.com)
@@ -49,7 +46,7 @@ NB: Use the shortcode at your own risk!
   The license for this software can also likely be found here:
   http://www.gnu.org/licenses/gpl-2.0.html
   
-* Please note, support may be available on the WordPress Support forums; but, it may be faster to visit http://buynowshop.com/plugins/bns-featured-category/ and leave a comment with the issue you are experiencing.
+* Please note, support may be available on the WordPress Support forums; but, it may be faster to visit http://buynowshop.com/plugins/bns-early-adopter/ and leave a comment with the issue you are experiencing.
 
 == Upgrade Notice ==
 Please stay current with your WordPress installation, your active theme, and your plugins.
