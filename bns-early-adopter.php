@@ -44,7 +44,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * Last revised March 2, 2012
+ * Last revised March 6, 2012
  * Initial Release
  */
 
@@ -119,10 +119,56 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         extract( $args );
 
         /** Get user selected values */
-        $title      = apply_filters( 'widget_title', $instance['title'] );
-        $show_alpha = $instance['show_alpha'];
-        $show_beta  = $instance['show_beta'];
-        $show_live  = $instance['show_live'];
+        $title          = apply_filters( 'widget_title', $instance['title'] );
+        $show_alpha     = $instance['show_alpha'];
+        $show_beta      = $instance['show_beta'];
+        $show_stable    = $instance['show_stable'];
+
+        /** Test options via echo */
+        echo 'Alpha: ' . $show_alpha;
+        echo 'Beta: ' . $show_beta;
+        echo 'Stable: ' . $show_stable;
+        /** End: Test options via echo */
+
+        /**
+         * The secret sauce of this whole sordid affair ...
+         *
+         * Get the global version and put it into an all lower case string
+         */
+        global $wp_version;
+        $version_string = strtolower( $wp_version );
+        $ea_version = '';
+
+        /** Step through the version string looking for an "a" for alpha, or a "b" for beta */
+        for ( $i = 1; $i < strlen( $version_string ); $i++ ) {
+            if ( 'a' == substr( $version_string, $i, 1 ) || 'b' == substr( $version_string, $i, 1 ) ) {
+                /** @var    string $test_character - used to assign $ea_version string  */
+                $test_character = substr( $version_string, $i, 1 );
+                if ( 'a' == $test_character ) {
+                    /** @var string $ea_version - if 'a' is found then set to alpha  */
+                    $ea_version = 'alpha';
+                    // echo $ea_version;
+                } elseif ( 'b' == $test_character ) {
+                    /** @var string $ea_version - if 'b' is found then set to beta */
+                    $ea_version = 'beta';
+                    // echo $ea_version;
+                } else {
+                    /** No 'a' or 'b' found must be some other nonsense or a 'public release' version */
+                    $ea_version = 'stable';
+                    // echo $ea_version;
+                }
+                /** @var number $i - if the `test_character` was found end the for loop by forcing the index value to its maximum */
+                $i = strlen( $version_string );
+            }
+        }
+
+        /**
+         * Conditional check - if all options are off do not display widget
+         * @todo Sort out other combinations when the widget should not be displayed
+         */
+        if ( ( ! $show_alpha ) && ( ! $show_beta ) && ( ! $show_stable ) ) {
+            echo '<div class="bnsea-no-show">';
+        }
 
         /** @var    $before_widget  string - defined by theme */
         echo $before_widget;
@@ -160,7 +206,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
                     // echo $ea_version;
                 } else {
                     /** No 'a' or 'b' found must be some other nonsense or a 'public release' version */
-                    $ea_version = 'public release';
+                    $ea_version = 'stable';
                     // echo $ea_version;
                 }
                 /** @var number $i - if the `test_character` was found end the for loop by forcing the index value to its maximum */
@@ -169,10 +215,15 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         }
 
         /** Get fancy here and write the output with correct grammar */
-        if ( 'alpha' == $ea_version ) {
-            $output = sprintf( __( "We are running the %s version of WordPress!", 'bns-ea' ), $ea_version );
+        if ( ( 'alpha' == $ea_version ) && ( $show_alpha ) ) {
+            $output = sprintf( __( "We are running the (alpha) %s version of WordPress!", 'bns-ea' ), $ea_version );
+        } elseif ( ( 'beta' == $ea_version && $show_beta ) ) {
+            $output = sprintf( __( "We are running the (beta) %s version of WordPress!", 'bns-ea' ), $ea_version );
+        } elseif ( ( 'stable' == $ea_version && $show_stable ) ) {
+            $output = sprintf( __( "We are running the (stable) %s version of WordPress!", 'bns-ea' ), $ea_version );
         } else {
-            $output = sprintf( __( "We're running the %s version of WordPress!", 'bns-ea' ), $ea_version );
+            /** @var null $output - widgets must have output of some sort or the Gods of programming will rain hellfire down on your code */
+            $output = '';
         }
         /** @var string $output - data to be displayed with a little CSS for added dressing */
         $output = '<h3 class="bnsea-output">' . $output . '</h3>';
@@ -181,6 +232,11 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 
         /** @var    $after_widget   string - defined by theme */
         echo $after_widget;
+
+        if ( ( ! $show_alpha ) && ( ! $show_beta ) && ( ! $show_stable ) ) {
+            echo '</div>';
+        } /** End: Conditional check for all options off */
+
     }
 
     /**
@@ -198,7 +254,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         $instance['title']      = $new_instance['title'];
         $instance['show_alpha'] = $new_instance['show_alpha'];
         $instance['show_beta']  = $new_instance['show_beta'];
-        $instance['show_live']  = $new_instance['show_live'];
+        $instance['show_stable']  = $new_instance['show_stable'];
 
         return $instance;
     }
@@ -214,10 +270,10 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
     function form( $instance ){
         /** Set default widget values */
         $defaults = array(
-            'title' => __( 'Early Adopter', 'bns-ea' ),
-            'show_alpha'    => false,
-            'show_beta'     => false,
-            'show_live'     => false
+            'title'         => __( 'Early Adopter', 'bns-ea' ),
+            'show_alpha'    => '',
+            'show_beta'     => '',
+            'show_stable'   => '',
             );
         $instance = wp_parse_args( (array) $instance, $defaults );
         ?>
@@ -237,8 +293,9 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         </p>
 
         <p>
-            <input class="checkbox" type="checkbox" <?php checked( (bool) $instance['show_live'], true ); ?> id="<?php echo $this->get_field_id( 'show_live' ); ?>" name="<?php echo $this->get_field_name( 'show_live' ); ?>" />
-            <label for="<?php echo $this->get_field_id( 'show_live' ); ?>"><?php _e( 'Show Live?', 'bns-ea' ); ?></label>
+            <input class="checkbox" type="checkbox" <?php checked( (bool) $instance['show_stable'], true ); ?> id="<?php echo $this->get_field_id( 'show_stable' ); ?>" name="<?php echo $this->get_field_name( 'show_stable' ); ?>" />
+            <label for="<?php echo $this->get_field_id( 'show_stable' ); ?>"><?php _e( 'Show Stable?', 'bns-ea' ); ?></label>
         </p>
     <?php }
 }
+?>
