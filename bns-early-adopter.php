@@ -3,7 +3,7 @@
 Plugin Name: BNS Early Adopter
 Plugin URI: http://buynowshop.com/plugins/bns-early-adopter
 Description: Show off you are an early adopter of WordPress (alpha and/or beta versions)
-Version: 0.1-alpha
+Version: 0.1
 TextDomain: bns-ea
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -20,7 +20,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-early-adopter/
  * @link        https://github.com/Cais/bns-early-adopter/
  * @link        http://wordpress.org/extend/plugins/bns-early-adopter/
- * @version     0.1
+ * @version     0.1-alpha
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2012, Edward Caissie
  *
@@ -46,6 +46,9 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  *
  * Last revised March 6, 2012
  * Initial Release
+ * @todo Flesh out the 'readme.txt' file
+ * @todo Add shortcode support
+ * @todo Add option to only show administrators
  */
 
 /**
@@ -125,9 +128,9 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         $show_stable    = $instance['show_stable'];
 
         /** Test options via echo */
-        echo 'Alpha: ' . $show_alpha;
-        echo 'Beta: ' . $show_beta;
-        echo 'Stable: ' . $show_stable;
+        // echo 'Alpha: ' . $show_alpha . ' ';
+        // echo 'Beta: ' . $show_beta . ' ';
+        // echo 'Stable: ' . $show_stable . ' ';
         /** End: Test options via echo */
 
         /**
@@ -214,13 +217,16 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
             }
         }
 
-        /** Get fancy here and write the output with correct grammar */
+        /**
+         * Get fancy here and write the output with correct grammar
+         * @todo Clean up these conditionals ...
+         */
         if ( ( 'alpha' == $ea_version ) && ( $show_alpha ) ) {
-            $output = sprintf( __( "We are running the (alpha) %s version of WordPress!", 'bns-ea' ), $ea_version );
+            $output = sprintf( __( "We are running an %s version of WordPress!", 'bns-ea' ), $ea_version );
         } elseif ( ( 'beta' == $ea_version && $show_beta ) ) {
-            $output = sprintf( __( "We are running the (beta) %s version of WordPress!", 'bns-ea' ), $ea_version );
+            $output = sprintf( __( "We are running a %s version of WordPress!", 'bns-ea' ), $ea_version );
         } elseif ( ( 'stable' == $ea_version && $show_stable ) ) {
-            $output = sprintf( __( "We are running the (stable) %s version of WordPress!", 'bns-ea' ), $ea_version );
+            $output = sprintf( __( "We are running a %s version of WordPress!", 'bns-ea' ), $ea_version );
         } else {
             /** @var null $output - widgets must have output of some sort or the Gods of programming will rain hellfire down on your code */
             $output = '';

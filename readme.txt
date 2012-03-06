@@ -2,7 +2,7 @@
 Contributors: cais
 Donate link: http://buynowshop.com
 Tags: admin
-Requires at least: 2.9
+Requires at least: 3.0
 Tested up to: 3.4
 Stable tag: 0.1
 
