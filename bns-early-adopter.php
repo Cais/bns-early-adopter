@@ -3,7 +3,7 @@
 Plugin Name: BNS Early Adopter
 Plugin URI: http://buynowshop.com/plugins/bns-early-adopter
 Description: Show off you are an early adopter of WordPress (alpha and/or beta versions)
-Version: 0.1
+Version: 0.2-alpha
 TextDomain: bns-ea
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -20,7 +20,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-early-adopter/
  * @link        https://github.com/Cais/bns-early-adopter/
  * @link        http://wordpress.org/extend/plugins/bns-early-adopter/
- * @version     0.1-alpha
+ * @version     0.2-alpha
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2012, Edward Caissie
  *
@@ -44,8 +44,11 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * Last revised March 6, 2012
- * Initial Release
+ * Last revised March 8, 2012
+ * @version 0.2
+ * Added conditional display widget check
+ * Cleaned up grammar conditional statements
+ *
  * @todo Tune up 'readme.txt'
  * @todo Add shortcode support
  * @todo Add only show administrators option
@@ -166,10 +169,35 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         }
 
         /**
-         * Conditional check - if all options are off do not display widget
-         * @todo Sort out other combinations when the widget should not be displayed
+         * Early Adopter Display
+         *
+         * Returns string value to dictate if widget should be displayed or not.
+         * Widget will not display by default.
+         *
+         * @since   0.2
+         *
+         * @param   array $instance - widget options
+         * @param   string $ea_version - version reference
+         *
+         * @return  string $ea_display - true | false
          */
-        if ( ( ! $show_alpha ) && ( ! $show_beta ) && ( ! $show_stable ) ) {
+        function bnsea_display( $instance, $ea_version ){
+            /** @var string $ea_display - default return value: false  */
+            $ea_display = 'false';
+            if ( ( $instance['show_alpha'] && ( 'alpha' == $ea_version ) ) ||
+                ( $instance['show_beta'] && ( 'beta' == $ea_version ) ) ||
+                ( $instance['show_stable'] && ( 'stable' == $ea_version ) ) ) {
+                $ea_display = 'true';
+                return $ea_display;
+            }
+            return $ea_display;
+        }
+
+        /**
+         * Conditional check - if all options are off do not display widget
+         * @uses    bnsea_display
+         */
+        if ( ! ( 'true' == bnsea_display( $instance, $ea_version ) ) ) {
             echo '<div class="bnsea-no-show">';
         }
 
@@ -208,7 +236,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
                     $ea_version = 'beta';
                     // echo $ea_version;
                 } else {
-                    /** No 'a' or 'b' found must be some other nonsense or a 'public release' version */
+                    /** No 'a' or 'b' found must be some other nonsense ... or a 'stable release' */
                     $ea_version = 'stable';
                     // echo $ea_version;
                 }
@@ -219,13 +247,10 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 
         /**
          * Get fancy here and write the output with correct grammar
-         * @todo Clean up these conditionals ...
          */
         if ( ( 'alpha' == $ea_version ) && ( $show_alpha ) ) {
             $output = sprintf( __( "We are running an %s version of WordPress!", 'bns-ea' ), $ea_version );
-        } elseif ( ( 'beta' == $ea_version && $show_beta ) ) {
-            $output = sprintf( __( "We are running a %s version of WordPress!", 'bns-ea' ), $ea_version );
-        } elseif ( ( 'stable' == $ea_version && $show_stable ) ) {
+        } elseif ( ( ( 'beta' == $ea_version ) && $show_beta ) || ( ( 'stable' == $ea_version ) && $show_stable ) ) {
             $output = sprintf( __( "We are running a %s version of WordPress!", 'bns-ea' ), $ea_version );
         } else {
             /** @var null $output - widgets must have output of some sort or the Gods of programming will rain hellfire down on your code */
@@ -239,9 +264,13 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         /** @var    $after_widget   string - defined by theme */
         echo $after_widget;
 
-        if ( ( ! $show_alpha ) && ( ! $show_beta ) && ( ! $show_stable ) ) {
+        /**
+         * End: Conditional check for all options off
+         * @uses    bnsea_display
+         */
+        if ( ! ( 'true' == bnsea_display( $instance, $ea_version ) ) ) {
             echo '</div>';
-        } /** End: Conditional check for all options off */
+        }
 
     }
 
@@ -257,10 +286,10 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         $instance = $old_instance;
 
         /** Update widget settings */
-        $instance['title']      = $new_instance['title'];
-        $instance['show_alpha'] = $new_instance['show_alpha'];
-        $instance['show_beta']  = $new_instance['show_beta'];
-        $instance['show_stable']  = $new_instance['show_stable'];
+        $instance['title']          = $new_instance['title'];
+        $instance['show_alpha']     = $new_instance['show_alpha'];
+        $instance['show_beta']      = $new_instance['show_beta'];
+        $instance['show_stable']    = $new_instance['show_stable'];
 
         return $instance;
     }
@@ -301,6 +330,11 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         <p>
             <input class="checkbox" type="checkbox" <?php checked( (bool) $instance['show_stable'], true ); ?> id="<?php echo $this->get_field_id( 'show_stable' ); ?>" name="<?php echo $this->get_field_name( 'show_stable' ); ?>" />
             <label for="<?php echo $this->get_field_id( 'show_stable' ); ?>"><?php _e( 'Show Stable?', 'bns-ea' ); ?></label>
+        </p>
+
+        <hr />
+        <p>
+            <?php _e( 'Note: If no version is checked, or no matching version is found, the widget will not display.', 'bns-ea' ); ?>
         </p>
     <?php }
 }

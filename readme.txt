@@ -52,5 +52,9 @@ A: To show your faith in WordPress code and the developers who write it.
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 0.2 =
+* Added conditional display widget check: if no version is checked, or no matching version is found the widget will not be displayed.
+* Cleaned up grammar conditional statements
+
 = 0.1 =
 * Initial Release.
