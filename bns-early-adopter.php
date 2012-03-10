@@ -44,7 +44,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * Last revised March 8, 2012
+ * Last revised March 10, 2012
  * @version 0.2
  * Added conditional display widget check
  * Cleaned up grammar conditional statements
@@ -52,6 +52,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @todo Tune up 'readme.txt'
  * @todo Add shortcode support
  * @todo Add only show administrators option
+ * @todo Add option to allow for end-user text?
  */
 
 /**
