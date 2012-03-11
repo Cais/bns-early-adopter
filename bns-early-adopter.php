@@ -48,17 +48,14 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @version 0.2
  * Added conditional display widget check
  * Cleaned up grammar conditional statements
+ * Added only show administrators option
+ * Added shortcode support
  *
  * @todo Tune up 'readme.txt'
- * @todo Add shortcode support
- * @todo Add only show administrators option
  * @todo Add option to allow for end-user text?
  */
 
-/**
- * Check installed WordPress version for compatibility
- * @todo Verify and reference which WordPress version is required and due to what function call
- */
+/** Check installed WordPress version for compatibility ... set to version 3.0 */
 global $wp_version;
 $exit_message = 'BNS Early Adopter requires WordPress version 3.0 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>';
 if ( version_compare( $wp_version, "3.0", "<" ) )
@@ -130,11 +127,13 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         $show_alpha     = $instance['show_alpha'];
         $show_beta      = $instance['show_beta'];
         $show_stable    = $instance['show_stable'];
+        $only_admin     = $instance['only_admin'];
 
         /** Test options via echo */
         // echo 'Alpha: ' . $show_alpha . ' ';
         // echo 'Beta: ' . $show_beta . ' ';
         // echo 'Stable: ' . $show_stable . ' ';
+        // echo 'Admin: ' . $only_admin;
         /** End: Test options via echo */
 
         /**
@@ -182,16 +181,18 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
          *
          * @return  string $ea_display - true | false
          */
-        function bnsea_display( $instance, $ea_version ){
-            /** @var string $ea_display - default return value: false  */
-            $ea_display = 'false';
-            if ( ( $instance['show_alpha'] && ( 'alpha' == $ea_version ) ) ||
-                ( $instance['show_beta'] && ( 'beta' == $ea_version ) ) ||
-                ( $instance['show_stable'] && ( 'stable' == $ea_version ) ) ) {
-                $ea_display = 'true';
+        if ( ! function_exists( 'bnsea_display' ) ) {
+            function bnsea_display( $instance, $ea_version ){
+                /** @var string $ea_display - default return value: false  */
+                $ea_display = 'false';
+                if ( ( $instance['show_alpha'] && ( 'alpha' == $ea_version ) ) ||
+                    ( $instance['show_beta'] && ( 'beta' == $ea_version ) ) ||
+                    ( $instance['show_stable'] && ( 'stable' == $ea_version ) ) ) {
+                    $ea_display = 'true';
+                    return $ea_display;
+                }
                 return $ea_display;
             }
-            return $ea_display;
         }
 
         /**
@@ -199,6 +200,11 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
          * @uses    bnsea_display
          */
         if ( ! ( 'true' == bnsea_display( $instance, $ea_version ) ) ) {
+            echo '<div class="bnsea-no-show">';
+        }
+
+        /** Conditional check - only show Administrators */
+        if ( ( $only_admin ) && ( ( ! is_user_logged_in() ) || ( ! current_user_can( 'manage_options' ) ) ) ) {
             echo '<div class="bnsea-no-show">';
         }
 
@@ -265,6 +271,11 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         /** @var    $after_widget   string - defined by theme */
         echo $after_widget;
 
+        /** Conditional check - only show Administrators */
+        if ( ( $only_admin ) && ( ( ! is_user_logged_in() ) || ( ! current_user_can( 'manage_options' ) ) ) ){
+            echo '</div>';
+        }
+
         /**
          * End: Conditional check for all options off
          * @uses    bnsea_display
@@ -291,6 +302,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         $instance['show_alpha']     = $new_instance['show_alpha'];
         $instance['show_beta']      = $new_instance['show_beta'];
         $instance['show_stable']    = $new_instance['show_stable'];
+        $instance['only_admin']     = $new_instance['only_admin'];
 
         return $instance;
     }
@@ -310,6 +322,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
             'show_alpha'    => '',
             'show_beta'     => '',
             'show_stable'   => '',
+            'only_admin'    => '',
             );
         $instance = wp_parse_args( (array) $instance, $defaults );
         ?>
@@ -333,10 +346,55 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
             <label for="<?php echo $this->get_field_id( 'show_stable' ); ?>"><?php _e( 'Show Stable?', 'bns-ea' ); ?></label>
         </p>
 
+        <p>
+            <input class="checkbox" type="checkbox" <?php checked( (bool) $instance['only_admin'], true ); ?> id="<?php echo $this->get_field_id( 'only_admin' ); ?>" name="<?php echo $this->get_field_name( 'only_admin' ); ?>" />
+            <label for="<?php echo $this->get_field_id( 'only_admin' ); ?>"><?php _e( 'Only Show Administrators?', 'bns-ea' ); ?></label>
+        </p>
+
         <hr />
         <p>
-            <?php _e( 'Note: If no version is checked, or no matching version is found, the widget will not display.', 'bns-ea' ); ?>
+            <?php _e( 'NB: If no version is checked, or no matching version is found, the widget will not display.', 'bns-ea' ); ?>
         </p>
+
     <?php }
 }
-?>
+
+/**
+ * BNSEA Shortcode
+ *
+ * @package BNS_Early_Adopter
+ * @since 0.2
+ *
+ * @param $atts
+ *
+ * @return string
+ */
+function bnsea_shortcode( $atts ) {
+    /** Get ready to capture the elusive widget output */
+    ob_start();
+    the_widget( 'BNS_Early_Adopter_Widget',
+        $instance = shortcode_atts( array(
+            'title'         => '',
+            'show_alpha'    => '',
+            'show_beta'     => '',
+            'show_stable'   => '',
+            'only_admin'    => ''
+        ), $atts ),
+        $args = array(
+            /** clear variables defined by theme for widgets */
+            $before_widget  = '',
+            $after_widget   = '',
+            $before_title   = '',
+            $after_title    = '',
+        )
+    );
+    /** Get the_widget output and put into its own container */
+    $bnsea_content = ob_get_contents();
+    ob_end_clean();
+    // All your snipes belong to us!
+
+    $bnsea_content = '<div class="bnsea-shortcode">' . $bnsea_content . '</div>';
+
+    return $bnsea_content;
+}
+add_shortcode( 'bnsea', 'bnsea_shortcode' );
