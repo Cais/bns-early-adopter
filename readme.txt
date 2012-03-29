@@ -4,7 +4,7 @@ Donate link: http://buynowshop.com
 Tags: admin
 Requires at least: 3.0
 Tested up to: 3.4
-Stable tag: 0.2
+Stable tag: 0.3
 
 Show off you are an early adopter of WordPress (alpha and/or beta versions).
 
@@ -60,6 +60,9 @@ A: To show your faith in WordPress code and the developers who write it.
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 0.3 =
+* Added `release candidate` option
+
 = 0.2 =
 * Added conditional display widget check: if no version is checked, or no matching version is found the widget will not be displayed.
 * Cleaned up grammar conditional statements
