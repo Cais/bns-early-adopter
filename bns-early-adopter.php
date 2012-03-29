@@ -48,7 +48,6 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @version 0.3
  * Add 'release candidate' option
  *
- * @todo Tune up 'readme.txt'
  * @todo Add option to allow for end-user text?
  */
 

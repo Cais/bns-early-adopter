@@ -18,11 +18,12 @@ Read this article for further assistance: http://wpfirstaid.com/2009/12/plugin-i
 = Shortcode: bnsea =
 The parameters are very similar to the widget
 
-* 'title'         => Can be used as a lead-in message, remember to wrap phrases in double-quotation marks
-* 'show_alpha'    => false by default, use true to activate
-* 'show_beta'     => false by default, use true to activate
-* 'show_stable'   => false by default, use true to activate
-* 'only_admin'    => false by default, use true to activate
+* 'title'       => Can be used as a lead-in message, remember to wrap phrases in double-quotation marks
+* 'show_alpha'  => false by default, use true to activate
+* 'show_beta'   => false by default, use true to activate
+* 'show_rc'     => false by default, use true to activate
+* 'show_stable' => false by default, use true to activate
+* 'only_admin'  => false by default, use true to activate
 
 NB: Custom CSS may be required when this shortcode is used with some Themes.
 
