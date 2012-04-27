@@ -3,7 +3,7 @@
 Plugin Name: BNS Early Adopter
 Plugin URI: http://buynowshop.com/plugins/bns-early-adopter
 Description: Show off you are an early adopter of WordPress (alpha, beta, and/or release candidate versions)
-Version: 0.4
+Version: 0.4.1
 TextDomain: bns-ea
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -20,7 +20,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-early-adopter/
  * @link        https://github.com/Cais/bns-early-adopter/
  * @link        http://wordpress.org/extend/plugins/bns-early-adopter/
- * @version     0.4
+ * @version     0.4.1
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2012, Edward Caissie
  *
@@ -44,10 +44,9 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * Last revised April 14, 2012
- * @version 0.3.1
- * Added `margin: 0` to 'h3.bnsea-output'
- * Updated screenshot
+ * Last revised April 27, 2012
+ * @version 0.4.1
+ * Addressed possible (although unlikely) issue with the use of `strlen`
  *
  * @todo Add option to allow for end-user text?
  */
@@ -138,7 +137,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         $ea_version = 'stable';
 
         /** Step through the version string looking for an "a" for alpha, "b" for beta, or "r" for release candidate */
-        for ( $i = 1; $i < strlen( $version_string ); $i++ ) {
+        for ( $i = 1; $i < strlen( utf8_decode( $$version_string ) ); $i++ ) {
             if ( 'a' == substr( $version_string, $i, 1 )
                 || 'b' == substr( $version_string, $i, 1 )
                 || 'r' == substr( $version_string, $i, 1 )) {
@@ -158,7 +157,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
                     $ea_version = 'stable(?)';
                 }
                 /** @var number $i - if the `test_character` was found, end the for loop by forcing the index value to its maximum */
-                $i = strlen( $version_string );
+                $i = strlen( utf8_decode( $$version_string ) );
             }
         }
 
