@@ -62,7 +62,7 @@ Please stay current with your WordPress installation, your active theme, and you
 
 == Changelog ==
 = 0.4.1 =
-* Addressed possible (although unlikely) issue with the use of `strlen`
+* Compatible with WordPress 3.4
 
 = 0.4 =
 * Fix issue of plugin not displaying with stable versions
