@@ -3,7 +3,7 @@
 Plugin Name: BNS Early Adopter
 Plugin URI: http://buynowshop.com/plugins/bns-early-adopter
 Description: Show off you are an early adopter of WordPress (alpha, beta, and/or release candidate versions)
-Version: 0.4.1
+Version: 0.4.2
 TextDomain: bns-ea
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -20,7 +20,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-early-adopter/
  * @link        https://github.com/Cais/bns-early-adopter/
  * @link        http://wordpress.org/extend/plugins/bns-early-adopter/
- * @version     0.4.1
+ * @version     0.4.2
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2012, Edward Caissie
  *
@@ -44,7 +44,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @date    August 2, 2012
  *
  * @todo Add option to allow for end-user text?
@@ -81,7 +81,7 @@ load_plugin_textdomain( 'bns-ea' );
  * @uses    plugin_dir_path
  * @uses    wp_enqueue_style
  *
- * @version 0.4.1
+ * @version 0.4.2
  * @date    August 2, 2012
  * Programmatically add version number to enqueue calls
  */
