@@ -3,7 +3,7 @@
 Plugin Name: BNS Early Adopter
 Plugin URI: http://buynowshop.com/plugins/bns-early-adopter
 Description: Show off you are an early adopter of WordPress (alpha, beta, and/or release candidate versions)
-Version: 0.4.2
+Version: 0.4.1
 TextDomain: bns-ea
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -13,14 +13,14 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
 /**
  * BNS Early Adopter WordPress plugin
- *
- * Show off you are an early adopter of WordPress (alpha and/or beta versions)
+ * Show off you are an early adopter of WordPress (alpha, beta, and/or release
+ * candidate versions)
  *
  * @package     BNS_Early_Adopter
  * @link        http://buynowshop.com/plugins/bns-early-adopter/
  * @link        https://github.com/Cais/bns-early-adopter/
  * @link        http://wordpress.org/extend/plugins/bns-early-adopter/
- * @version     0.4.2
+ * @version     0.4.1
  * @author      Edward Caissie <edward.caissie@gmail.com>
  * @copyright   Copyright (c) 2012, Edward Caissie
  *
@@ -44,8 +44,8 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version 0.4.2
- * @date    July 13, 2012
+ * @version 0.4.1
+ * @date    August 2, 2012
  *
  * @todo Add option to allow for end-user text?
  */
@@ -80,13 +80,22 @@ load_plugin_textdomain( 'bns-ea' );
  * @uses    plugin_dir_url
  * @uses    plugin_dir_path
  * @uses    wp_enqueue_style
+ *
+ * @version 0.4.1
+ * @date    August 2, 2012
+ * Programmatically add version number to enqueue calls
  */
 function BNSEA_Scripts_and_Styles() {
+    /** Call the wp-admin plugin code */
+    require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+    /** @var $bnsea_data - holds the plugin header data */
+    $bnsea_data = get_plugin_data( __FILE__ );
+
     /** Enqueue Scripts */
     /** Enqueue Style Sheets */
-    wp_enqueue_style( 'BNSEA-Style', plugin_dir_url( __FILE__ ) . 'bnsea-style.css', array(), '0.3.1', 'screen' );
+    wp_enqueue_style( 'BNSEA-Style', plugin_dir_url( __FILE__ ) . 'bnsea-style.css', array(), $bnsea_data['Version'], 'screen' );
     if ( is_readable( plugin_dir_path( __FILE__ ) . 'bnsea-custom-style.css' ) ) {
-        wp_enqueue_style( 'BNSEA-Custom-Style', plugin_dir_url( __FILE__ ) . 'bnsea-custom-style.css', array(), '0.3.1', 'screen' );
+        wp_enqueue_style( 'BNSEA-Custom-Style', plugin_dir_url( __FILE__ ) . 'bnsea-custom-style.css', array(), $bnsea_data['Version'], 'screen' );
     }
 }
 add_action( 'wp_enqueue_scripts', 'BNSEA_Scripts_and_Styles' );

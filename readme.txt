@@ -3,8 +3,8 @@ Contributors: cais
 Donate link: http://buynowshop.com
 Tags: admin
 Requires at least: 3.0
-Tested up to: 3.4
-Stable tag: 0.4.2
+Tested up to: 3.4.1
+Stable tag: 0.4.1
 
 Show off you are an early adopter of WordPress (alpha and/or beta versions).
 
@@ -61,11 +61,10 @@ A: To show your faith in WordPress code and the developers who write it.
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
-= 0.4.2 =
-* Documentation updates
-
 = 0.4.1 =
-* Compatible with WordPress 3.4
+* Compatible with WordPress 3.4.1
+* Documentation updates
+* Programmatically add version number to enqueue calls
 
 = 0.4 =
 * Fix issue of plugin not displaying with stable versions
