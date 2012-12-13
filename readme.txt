@@ -65,6 +65,7 @@ Please stay current with your WordPress installation, your active theme, and you
 == Changelog ==
 = 0.6 =
 * Release ...
+* Change to PHP5 style class code format
 * Move activation related function calls inside class
 
 = 0.5 =

@@ -70,7 +70,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
      * @date    December 13, 2012
      * Moved activation functions and related calls into class constructor
      */
-    function BNS_Early_Adopter_Widget(){
+    function __construct() {
         /** Widget Settings */
         $widget_ops = array( 'classname' => 'bns-early-adopter', 'description' => __( 'White knuckling your active WordPress version? Show it off!', 'bns-ea' ) );
 
