@@ -11,7 +11,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 Show off you are an early adopter of WordPress
 
 == Description ==
-Show off you are an early adopter of WordPress (alpha, beta, and/or release candidate versions).
+Show off you are an early adopter of WordPress (alpha, beta, release candidate, and/or stable versions).
 
 == Installation ==
 Read this article for further assistance: http://wpfirstaid.com/2009/12/plugin-installation/

@@ -91,7 +91,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
          * @version 0.6
          * @date    December 113, 2013
          * @internal Requires PHP5 or greater
-         * @internal WordPress 3.2 and greater require PHP5
+         * @internal WordPress 3.2 and newer require PHP5
          */
         global $wp_version;
         $exit_message = 'BNS Early Adopter requires WordPress version 3.2 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>';
@@ -107,7 +107,8 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 
     /**
      * Enqueue Plugin Scripts and Styles
-     * Adds plugin stylesheet and allows for custom stylesheet to be added by end-user.
+     * Adds plugin stylesheet (and scripts); also allows for custom stylesheet
+     * to be added by end-user.
      *
      * @package BNS_Early_Adopter
      * @since   0.1
