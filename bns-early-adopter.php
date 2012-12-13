@@ -3,7 +3,7 @@
 Plugin Name: BNS Early Adopter
 Plugin URI: http://buynowshop.com/plugins/bns-early-adopter
 Description: Show off you are an early adopter of WordPress (alpha, beta, and/or release candidate versions)
-Version: 0.5
+Version: 0.6
 TextDomain: bns-ea
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
@@ -48,54 +48,28 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @date    November 26, 2012
  * Remove load_plugin_textdomain as redundant
  * Optimized output buffer code used in shortcode function
+ *
+ * @version 0.6
+ * @date    December 13, 2012
  */
-
-/** Check installed WordPress version for compatibility ... set to version 3.0 */
-global $wp_version;
-$exit_message = 'BNS Early Adopter requires WordPress version 3.0 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>';
-if ( version_compare( $wp_version, "3.0", "<" ) )
-    exit ( $exit_message );
-
-/**
- * Enqueue Plugin Scripts and Styles
- *
- * Adds plugin stylesheet and allows for custom stylesheet to be added by end-user.
- *
- * @package BNS_Early_Adopter
- * @since   0.1
- *
- * @uses    get_plugin_data
- * @uses    plugin_dir_url
- * @uses    plugin_dir_path
- * @uses    wp_enqueue_style
- *
- * @version 0.4.2
- * @date    August 2, 2012
- * Programmatically add version number to enqueue calls
- */
-function BNSEA_Scripts_and_Styles() {
-    /** Call the wp-admin plugin code */
-    require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-    /** @var $bnsea_data - holds the plugin header data */
-    $bnsea_data = get_plugin_data( __FILE__ );
-
-    /** Enqueue Scripts */
-    /** Enqueue Style Sheets */
-    wp_enqueue_style( 'BNSEA-Style', plugin_dir_url( __FILE__ ) . 'bnsea-style.css', array(), $bnsea_data['Version'], 'screen' );
-    if ( is_readable( plugin_dir_path( __FILE__ ) . 'bnsea-custom-style.css' ) ) {
-        wp_enqueue_style( 'BNSEA-Custom-Style', plugin_dir_url( __FILE__ ) . 'bnsea-custom-style.css', array(), $bnsea_data['Version'], 'screen' );
-    }
-}
-add_action( 'wp_enqueue_scripts', 'BNSEA_Scripts_and_Styles' );
-
-/** Register BNS Early Adopter Widget */
-function load_bnsea_widget() {
-    register_widget( 'BNS_Early_Adopter_Widget' );
-}
-add_action( 'widgets_init', 'load_bnsea_widget' );
 
 class BNS_Early_Adopter_Widget extends WP_Widget {
 
+    /**
+     * BNS Early Adopter Widget / Constructor
+     * Extends the WP_Widget class and adds other related functionality
+     *
+     * @package BNS_Early_Adopter
+     * @since   0.1
+     *
+     * @uses    (class) WP_Widget
+     * @uses    add_action
+     * @uses    add_shortcode
+     *
+     * @version 0.6
+     * @date    December 13, 2012
+     * Moved activation functions and related calls into class constructor
+     */
     function BNS_Early_Adopter_Widget(){
         /** Widget Settings */
         $widget_ops = array( 'classname' => 'bns-early-adopter', 'description' => __( 'White knuckling your active WordPress version? Show it off!', 'bns-ea' ) );
@@ -105,6 +79,49 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 
         /** Create the Widget */
         $this->WP_Widget( 'bns-early-adopter', 'BNS Early Adopter', $widget_ops, $control_ops );
+
+        /** Check installed WordPress version for compatibility ... set to version 3.0 */
+        global $wp_version;
+        $exit_message = 'BNS Early Adopter requires WordPress version 3.0 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>';
+        if ( version_compare( $wp_version, "3.0", "<" ) )
+            exit ( $exit_message );
+
+        /** Add Scripts and Styles */
+        add_action( 'wp_enqueue_scripts', array( $this, 'BNSEA_Scripts_and_Styles' ) );
+
+        /** Add Shortcode */
+        add_shortcode( 'bnsea', array( $this, 'bnsea_shortcode' ) );
+    }
+
+    /**
+     * Enqueue Plugin Scripts and Styles
+     *
+     * Adds plugin stylesheet and allows for custom stylesheet to be added by end-user.
+     *
+     * @package BNS_Early_Adopter
+     * @since   0.1
+     *
+     * @uses    get_plugin_data
+     * @uses    plugin_dir_url
+     * @uses    plugin_dir_path
+     * @uses    wp_enqueue_style
+     *
+     * @version 0.4.2
+     * @date    August 2, 2012
+     * Programmatically add version number to enqueue calls
+     */
+    function BNSEA_Scripts_and_Styles() {
+        /** Call the wp-admin plugin code */
+        require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+        /** @var $bnsea_data - holds the plugin header data */
+        $bnsea_data = get_plugin_data( __FILE__ );
+
+        /** Enqueue Scripts */
+        /** Enqueue Style Sheets */
+        wp_enqueue_style( 'BNSEA-Style', plugin_dir_url( __FILE__ ) . 'bnsea-style.css', array(), $bnsea_data['Version'], 'screen' );
+        if ( is_readable( plugin_dir_path( __FILE__ ) . 'bnsea-custom-style.css' ) ) {
+            wp_enqueue_style( 'BNSEA-Custom-Style', plugin_dir_url( __FILE__ ) . 'bnsea-custom-style.css', array(), $bnsea_data['Version'], 'screen' );
+        }
     }
 
     /**
@@ -348,53 +365,65 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         </p>
 
     <?php }
+
+    /**
+     * BNSEA Shortcode
+     *
+     * @package BNS_Early_Adopter
+     * @since 0.2
+     *
+     * @param   $atts
+     *
+     * @uses    shortcode_atts
+     * @uses    the_widget
+     *
+     * @return  string
+     *
+     * @version 0.3
+     * Added release candidate option
+     *
+     * @version 0.5
+     * @date    November 26, 2012
+     * Optimized output buffer code
+     */
+    function bnsea_shortcode( $atts ) {
+        /** Get ready to capture the elusive widget output */
+        ob_start();
+        the_widget( 'BNS_Early_Adopter_Widget',
+            $instance = shortcode_atts( array(
+                'title'         => '',
+                'show_alpha'    => '',
+                'show_beta'     => '',
+                'show_rc'       => '',
+                'show_stable'   => '',
+                'only_admin'    => ''
+            ), $atts ),
+            $args = array(
+                /** clear variables defined by theme for widgets */
+                $before_widget  = '',
+                $after_widget   = '',
+                $before_title   = '',
+                $after_title    = '',
+            )
+        );
+        /** Get the_widget output and put into its own container */
+        $bnsea_content = ob_get_clean();
+
+        $bnsea_content = '<div class="bnsea-shortcode">' . $bnsea_content . '</div>';
+
+        return $bnsea_content;
+    }
 }
 
 /**
- * BNSEA Shortcode
+ * Register BNS Early Adopter Widget
  *
  * @package BNS_Early_Adopter
- * @since 0.2
+ * @since   0.1
  *
- * @param   $atts
- *
- * @uses    shortcode_atts
- * @uses    the_widget
- *
- * @return  string
- *
- * @version 0.3
- * Added release candidate option
- *
- * @version 0.5
- * @date    November 26, 2012
- * Optimized output buffer code
+ * @uses    register_widget
  */
-function bnsea_shortcode( $atts ) {
-    /** Get ready to capture the elusive widget output */
-    ob_start();
-    the_widget( 'BNS_Early_Adopter_Widget',
-        $instance = shortcode_atts( array(
-            'title'         => '',
-            'show_alpha'    => '',
-            'show_beta'     => '',
-            'show_rc'       => '',
-            'show_stable'   => '',
-            'only_admin'    => ''
-        ), $atts ),
-        $args = array(
-            /** clear variables defined by theme for widgets */
-            $before_widget  = '',
-            $after_widget   = '',
-            $before_title   = '',
-            $after_title    = '',
-        )
-    );
-    /** Get the_widget output and put into its own container */
-    $bnsea_content = ob_get_clean();
-
-    $bnsea_content = '<div class="bnsea-shortcode">' . $bnsea_content . '</div>';
-
-    return $bnsea_content;
+function load_bnsea_widget() {
+    register_widget( 'BNS_Early_Adopter_Widget' );
 }
-add_shortcode( 'bnsea', 'bnsea_shortcode' );
+add_action( 'widgets_init', 'load_bnsea_widget' );

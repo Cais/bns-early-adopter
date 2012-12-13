@@ -4,7 +4,7 @@ Donate link: http://buynowshop.com
 Tags: admin, widget-only
 Requires at least: 3.0
 Tested up to: 3.5
-Stable tag: 0.5
+Stable tag: 0.6
 License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -63,6 +63,10 @@ To show your faith in WordPress code and the developers who write it.
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 0.6 =
+* Release ...
+* Move activation related function calls inside class
+
 = 0.5 =
 * Release November 2012
 * Documentation updates
