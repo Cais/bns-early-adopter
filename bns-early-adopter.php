@@ -68,6 +68,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
      *
      * @version 0.6
      * @date    December 13, 2012
+     * Changed constructor function name to __construct (i.e.: PHP5 code format)
      * Moved activation functions and related calls into class constructor
      */
     function __construct() {
