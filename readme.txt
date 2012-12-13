@@ -2,7 +2,7 @@
 Contributors: cais
 Donate link: http://buynowshop.com
 Tags: admin, widget-only
-Requires at least: 3.0
+Requires at least: 3.2
 Tested up to: 3.5
 Stable tag: 0.6
 License: GNU General Public License v2
@@ -68,6 +68,8 @@ Please stay current with your WordPress installation, your active theme, and you
 * Change to PHP5 style class code format
 * Changed constructor function name (BNS_Early_Adopter_Widget) to __construct (i.e.: PHP5 code format)
 * Move activation related function calls inside class
+* Pushed minimum required WordPress version to 3.2 to handle PHP5 requirement
+* Renamed `BNSEA_Scripts_and_Styles` to `scripts_and_styles`
 
 = 0.5 =
 * Release November 2012

@@ -81,14 +81,25 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         /** Create the Widget */
         $this->WP_Widget( 'bns-early-adopter', 'BNS Early Adopter', $widget_ops, $control_ops );
 
-        /** Check installed WordPress version for compatibility ... set to version 3.0 */
+        /**
+         * WordPress version compatibility
+         *
+         * @since   0.1
+         *
+         * @uses    (global) $wp_version
+         *
+         * @version 0.6
+         * @date    December 113, 2013
+         * @internal Requires PHP5 or greater
+         * @internal WordPress 3.2 and greater require PHP5
+         */
         global $wp_version;
-        $exit_message = 'BNS Early Adopter requires WordPress version 3.0 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>';
-        if ( version_compare( $wp_version, "3.0", "<" ) )
+        $exit_message = 'BNS Early Adopter requires WordPress version 3.2 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>';
+        if ( version_compare( $wp_version, "3.2", "<" ) )
             exit ( $exit_message );
 
         /** Add Scripts and Styles */
-        add_action( 'wp_enqueue_scripts', array( $this, 'BNSEA_Scripts_and_Styles' ) );
+        add_action( 'wp_enqueue_scripts', array( $this, 'scripts_and_styles' ) );
 
         /** Add Shortcode */
         add_shortcode( 'bnsea', array( $this, 'bnsea_shortcode' ) );
@@ -96,7 +107,6 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 
     /**
      * Enqueue Plugin Scripts and Styles
-     *
      * Adds plugin stylesheet and allows for custom stylesheet to be added by end-user.
      *
      * @package BNS_Early_Adopter
@@ -110,8 +120,12 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
      * @version 0.4.2
      * @date    August 2, 2012
      * Programmatically add version number to enqueue calls
+     *
+     * @version 0.6
+     * @date    December 13, 2012
+     * Renamed to `scripts_and_styles`
      */
-    function BNSEA_Scripts_and_Styles() {
+    function scripts_and_styles() {
         /** Call the wp-admin plugin code */
         require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
         /** @var $bnsea_data - holds the plugin header data */
@@ -132,6 +146,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
      * @param   $args
      * @param   $instance
      *
+     * @uses    (global) wp_version
      * @uses    apply_filters
      * @uses    current_user_can
      * @uses    is_user_logged_in
