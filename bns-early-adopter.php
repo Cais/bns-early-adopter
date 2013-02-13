@@ -88,6 +88,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         /**
          * WordPress version compatibility
          *
+         * @package BNS_Early_Adopter
          * @since   0.1
          *
          * @uses    (global) $wp_version
@@ -406,7 +407,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
      * BNSEA Shortcode
      *
      * @package BNS_Early_Adopter
-     * @since 0.2
+     * @since   0.2
      *
      * @param   $atts
      *
