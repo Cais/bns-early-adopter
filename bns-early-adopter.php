@@ -112,7 +112,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         add_shortcode( 'bnsea', array( $this, 'bnsea_shortcode' ) );
 
         /** Add widget */
-        add_action( 'widgets_init', 'load_bnsea_widget' );
+        add_action( 'widgets_init', array( $this, 'load_bnsea_widget' ) );
 
     } /** End function - construct */
 
@@ -158,6 +158,9 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
      * The Widget Itself ...
      * ... lets get down to business.
      *
+     * @package BNS_Early_Adopter
+     * @since   0.1
+     *
      * @param   $args
      * @param   $instance
      *
@@ -165,6 +168,10 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
      * @uses    apply_filters
      * @uses    current_user_can
      * @uses    is_user_logged_in
+     *
+     * @version 0.6
+     * @date    February 13, 2013
+     * Moved `bnsea_display` out of `widget` method
      */
     function widget( $args, $instance ){
         /** Get widget setting values */
@@ -214,41 +221,10 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         } /** End for - string-length */
 
         /**
-         * Early Adopter Display
-         *
-         * Returns string value to dictate if widget should be displayed or not.
-         * Widget will not display by default.
-         *
-         * @since   0.2
-         *
-         * @param   array $instance - widget options
-         * @param   string $ea_version - version reference
-         *
-         * @return  string $ea_display - true | false
-         *
-         * @version 0.3
-         * Added release candidate option
+         * If all options are off BNS_Early_Adopter_Widget::bnsea_display will
+         * return false and the widget should not display anything
          */
-        if ( ! function_exists( 'bnsea_display' ) ) {
-            function bnsea_display( $instance, $ea_version ){
-                /** @var string $ea_display - default return value: false  */
-                $ea_display = 'false';
-                if ( ( $instance['show_alpha'] && ( 'alpha' == $ea_version ) ) ||
-                    ( $instance['show_beta'] && ( 'beta' == $ea_version ) ) ||
-                    ( $instance['show_rc'] && ( 'release candidate' == $ea_version ) ) ||
-                    ( $instance['show_stable'] && ( 'stable' == $ea_version ) ) ) {
-                    $ea_display = 'true';
-                    return $ea_display;
-                }
-                return $ea_display;
-            } /** End function - bnsea display */
-        } /** End if - function exists */
-
-        /**
-         * Conditional check - if all options are off do not display widget
-         * @uses    bnsea_display
-         */
-        if ( ! ( 'true' == bnsea_display( $instance, $ea_version ) ) ) {
+        if ( $this->bnsea_display( $instance, $ea_version ) ) {
             echo '<div class="bnsea-no-show">';
         } /** End if - not true */
 
@@ -297,14 +273,51 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         } /** End if - only administrators */
 
         /**
-         * End: Conditional check for all options off
-         * @uses    bnsea_display
+         * If all options are off BNS_Early_Adopter_Widget::bnsea_display will
+         * return false and the widget should not display anything
          */
-        if ( ! ( 'true' == bnsea_display( $instance, $ea_version ) ) ) {
+        if ( $this->bnsea_display( $instance, $ea_version ) ) {
             echo '</div>';
         } /** End if - not true */
 
     } /** End function - widget */
+
+
+    /**
+     * Early Adopter Display
+     *
+     * Returns string value to dictate if widget should be displayed or not.
+     * Widget will not display by default.
+     *
+     * @since   0.2
+     *
+     * @param   array $instance - widget options
+     * @param   string $ea_version - version reference
+     *
+     * @return  string $ea_display - true | false
+     *
+     * @version 0.3
+     * Added release candidate option
+     *
+     * @version 0.6
+     * @date    February 13, 2013
+     * Moved out of `widget` method
+     */
+    function bnsea_display( $instance, $ea_version ){
+        /** @var string $ea_display - default return value: false  */
+        $ea_display = 'false';
+
+        if ( ( $instance['show_alpha'] && ( 'alpha' == $ea_version ) )
+            || ( $instance['show_beta'] && ( 'beta' == $ea_version ) )
+            || ( $instance['show_rc'] && ( 'release candidate' == $ea_version ) )
+            || ( $instance['show_stable'] && ( 'stable' == $ea_version ) ) ) {
+            $ea_display = 'true';
+            return $ea_display;
+        } /** End if - boolean test to change display to true */
+
+        return $ea_display;
+
+    } /** End function - bnsea display */
 
 
     /**

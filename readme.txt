@@ -69,8 +69,8 @@ Please stay current with your WordPress installation, your active theme, and you
 * Added more i18n compatibility
 * Change to PHP5 style class code format
 * Changed constructor function name (BNS_Early_Adopter_Widget) to __construct (i.e.: PHP5 code format)
-* Move activation related function calls inside class
-* Move all code into class structure
+* Moved all code into class structure
+* Moved `bnsea_display` out of `widget` method
 * Pushed minimum required WordPress version to 3.2 to handle PHP5 requirement
 * Renamed `BNSEA_Scripts_and_Styles` to `scripts_and_styles`
 
