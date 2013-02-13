@@ -269,7 +269,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 
         /** Conditional check - only show Administrators */
         if ( ( $only_admin ) && ( ( ! is_user_logged_in() ) || ( ! current_user_can( 'manage_options' ) ) ) ){
-            echo '</div>';
+            echo '</div><!-- bnsea-no-show -->';
         } /** End if - only administrators */
 
         /**
@@ -277,7 +277,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
          * return false and the widget should not display anything
          */
         if ( $this->bnsea_display( $instance, $ea_version ) ) {
-            echo '</div>';
+            echo '</div><!-- bnsea-no-show -->';
         } /** End if - not true */
 
     } /** End function - widget */
