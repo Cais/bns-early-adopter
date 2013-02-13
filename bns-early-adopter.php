@@ -20,9 +20,9 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * @link        http://buynowshop.com/plugins/bns-early-adopter/
  * @link        https://github.com/Cais/bns-early-adopter/
  * @link        http://wordpress.org/extend/plugins/bns-early-adopter/
- * @version     0.5
+ * @version     0.6
  * @author      Edward Caissie <edward.caissie@gmail.com>
- * @copyright   Copyright (c) 2012, Edward Caissie
+ * @copyright   Copyright (c) 2012-2013, Edward Caissie
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License version 2, as published by the
@@ -50,7 +50,11 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * Optimized output buffer code used in shortcode function
  *
  * @version 0.6
- * @date    December 13, 2012
+ * @date    February 13, 2013
+ * Added more i18n compatibility
+ * Added code block termination comments
+ * Changed constructor function name to __construct (i.e.: PHP5 code format)
+ * Move all code into class structure
  */
 
 class BNS_Early_Adopter_Widget extends WP_Widget {
@@ -89,21 +93,28 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
          * @uses    (global) $wp_version
          *
          * @version 0.6
-         * @date    December 113, 2013
+         * @date    December 13, 2012
          * @internal Requires PHP5 or greater
          * @internal WordPress 3.2 and newer require PHP5
+         * Add i18n compatibility
          */
         global $wp_version;
-        $exit_message = 'BNS Early Adopter requires WordPress version 3.2 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>';
-        if ( version_compare( $wp_version, "3.2", "<" ) )
+        $exit_message = __( 'BNS Early Adopter requires WordPress version 3.2 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-ea' );
+        if ( version_compare( $wp_version, "3.2", "<" ) ) {
             exit ( $exit_message );
+        } /** End if - version compare */
 
         /** Add Scripts and Styles */
         add_action( 'wp_enqueue_scripts', array( $this, 'scripts_and_styles' ) );
 
         /** Add Shortcode */
         add_shortcode( 'bnsea', array( $this, 'bnsea_shortcode' ) );
-    }
+
+        /** Add widget */
+        add_action( 'widgets_init', 'load_bnsea_widget' );
+
+    } /** End function - construct */
+
 
     /**
      * Enqueue Plugin Scripts and Styles
@@ -137,8 +148,10 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         wp_enqueue_style( 'BNSEA-Style', plugin_dir_url( __FILE__ ) . 'bnsea-style.css', array(), $bnsea_data['Version'], 'screen' );
         if ( is_readable( plugin_dir_path( __FILE__ ) . 'bnsea-custom-style.css' ) ) {
             wp_enqueue_style( 'BNSEA-Custom-Style', plugin_dir_url( __FILE__ ) . 'bnsea-custom-style.css', array(), $bnsea_data['Version'], 'screen' );
-        }
-    }
+        } /** End if - is readable */
+
+    } /** End function - scripts and styles */
+
 
     /**
      * The Widget Itself ...
@@ -196,8 +209,8 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
                 }
                 /** @var number $i - if the `test_character` was found, end the for loop by forcing the index value to its maximum */
                 $i = strlen( $version_string );
-            }
-        }
+            } /** End if - sub-string */
+        } /** End for - string-length */
 
         /**
          * Early Adopter Display
@@ -227,8 +240,8 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
                     return $ea_display;
                 }
                 return $ea_display;
-            }
-        }
+            } /** End function - bnsea display */
+        } /** End if - function exists */
 
         /**
          * Conditional check - if all options are off do not display widget
@@ -236,12 +249,12 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
          */
         if ( ! ( 'true' == bnsea_display( $instance, $ea_version ) ) ) {
             echo '<div class="bnsea-no-show">';
-        }
+        } /** End if - not true */
 
         /** Conditional check - only show Administrators */
         if ( ( $only_admin ) && ( ( ! is_user_logged_in() ) || ( ! current_user_can( 'manage_options' ) ) ) ) {
             echo '<div class="bnsea-no-show">';
-        }
+        } /** End if - only administrators */
 
         /** @var    $before_widget  string - defined by theme */
         echo $before_widget;
@@ -253,7 +266,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
              * @var $after_title    string - defined by theme
              */
             echo $before_title . $title . $after_title;
-        }
+        } /** End if  - title */
 
         /**
          * Get fancy here and write the output with correct grammar
@@ -267,7 +280,8 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         } else {
             /** @var null $output - widgets must have output of some sort or the Gods of programming will rain hellfire down on your code */
             $output = '';
-        }
+        } /** End if - version */
+
         /** @var string $output - data to be displayed with a little CSS for added dressing */
         $output = '<h3 class="bnsea-output">' . $output . '</h3>';
 
@@ -279,7 +293,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         /** Conditional check - only show Administrators */
         if ( ( $only_admin ) && ( ( ! is_user_logged_in() ) || ( ! current_user_can( 'manage_options' ) ) ) ){
             echo '</div>';
-        }
+        } /** End if - only administrators */
 
         /**
          * End: Conditional check for all options off
@@ -287,13 +301,15 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
          */
         if ( ! ( 'true' == bnsea_display( $instance, $ea_version ) ) ) {
             echo '</div>';
-        }
+        } /** End if - not true */
 
-    }
+    } /** End function - widget */
+
 
     /**
-     * Over writes update; maintains widget settings when mutliple instances exist
+     * Over writes update; maintains widget settings when multiple instances exist
      *
+     * @package BNS_Early_Adopter
      * @since   0.1
      *
      * @param   $new_instance
@@ -316,7 +332,9 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         $instance['only_admin']     = $new_instance['only_admin'];
 
         return $instance;
-    }
+
+    } /** End function - update */
+
 
     /**
      * Over writes form; displays widget options form
@@ -344,8 +362,8 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
             'show_stable'   => '',
             'only_admin'    => '',
         );
-        $instance = wp_parse_args( (array) $instance, $defaults );
-        ?>
+        $instance = wp_parse_args( (array) $instance, $defaults ); ?>
+
         <p>
             <label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'bns-ea' ); ?></label>
             <input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" value="<?php echo $instance['title']; ?>" style="width:100%;" />
@@ -381,7 +399,8 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
             <?php _e( 'NB: If no version is checked, or no matching version is found, the widget will not display.', 'bns-ea' ); ?>
         </p>
 
-    <?php }
+    <?php } /** End function - form */
+
 
     /**
      * BNSEA Shortcode
@@ -429,18 +448,25 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         $bnsea_content = '<div class="bnsea-shortcode">' . $bnsea_content . '</div>';
 
         return $bnsea_content;
-    }
-}
 
-/**
- * Register BNS Early Adopter Widget
- *
- * @package BNS_Early_Adopter
- * @since   0.1
- *
- * @uses    register_widget
- */
-function load_bnsea_widget() {
-    register_widget( 'BNS_Early_Adopter_Widget' );
-}
-add_action( 'widgets_init', 'load_bnsea_widget' );
+    } /** End function - shortcode */
+
+
+    /**
+     * Register BNS Early Adopter Widget
+     *
+     * @package BNS_Early_Adopter
+     * @since   0.1
+     *
+     * @uses    register_widget
+     */
+    function load_bnsea_widget() {
+        register_widget( 'BNS_Early_Adopter_Widget' );
+    }
+
+
+} /** End class */
+
+
+/** @var $bnsea - instantiate the class */
+$bnsea = new BNS_Early_Adopter_Widget();
