@@ -183,6 +183,10 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
      * @version 0.6.1
      * @date    April 2, 2013
      * Fixed conditional logic used to display plugin
+     *
+     * @version 0.7
+     * @date    July 14, 2013
+     * Corrected Administrator Only conditional and added admin only classes
      */
     function widget( $args, $instance ){
         /** Get widget setting values */
@@ -241,7 +245,12 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 
         /** Conditional check - only show Administrators */
         if ( $only_admin ) {
-            echo '<div class="bnsea-no-show">';
+            if ( is_user_logged_in() && current_user_can( 'activate_plugins' ) ) {
+                echo '<div class="bnsea-admin-only">';
+                printf( '<span class="bnsea-admin-only-text">' . __( '%1$s', 'bns-ea' ) . '</span>', 'Administrator ONLY Mode' );
+            } else {
+                echo '<div class="bnsea-no-show">';
+            }
         } /** End if - only administrators */
 
         /** @var    $before_widget  string - defined by theme */
