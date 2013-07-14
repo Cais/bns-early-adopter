@@ -247,7 +247,11 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
         if ( $only_admin ) {
             if ( is_user_logged_in() && current_user_can( 'activate_plugins' ) ) {
                 echo '<div class="bnsea-admin-only">';
-                printf( '<span class="bnsea-admin-only-text">' . __( '%1$s', 'bns-ea' ) . '</span>', 'Administrator ONLY Mode' );
+                $bnsea_admin_only_text_output = apply_filters(
+                    'bnsea_admin_only_text',
+                    sprintf( '<span class="bnsea-admin-only-text">' . __( '%1$s', 'bns-ea' ) . '</span>', 'Administrator ONLY View' )
+                );
+                echo $bnsea_admin_only_text_output;
             } else {
                 echo '<div class="bnsea-no-show">';
             }
