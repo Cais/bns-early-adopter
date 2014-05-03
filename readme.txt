@@ -3,8 +3,8 @@ Contributors: cais
 Donate link: http://buynowshop.com
 Tags: admin, widget-only
 Requires at least: 3.2
-Tested up to: 3.8.1
-Stable tag: 0.7.1
+Tested up to: 3.9
+Stable tag: 0.8
 License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -37,7 +37,7 @@ To show your faith in WordPress code and the developers who write it.
 1. Default widget options panel
 
 == Other Notes ==
-* Copyright 2012-2013  Edward Caissie  (email : edward.caissie@gmail.com)
+* Copyright 2012-2014  Edward Caissie  (email : edward.caissie@gmail.com)
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License version 2,
@@ -63,6 +63,11 @@ To show your faith in WordPress code and the developers who write it.
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 0.8 =
+* Released May 2014
+* Updated compatibility version
+* Updated copyright years
+
 = 0.7.1 =
 * Released December 2013
 * Code Reformatting and version compatibility update
