@@ -90,6 +90,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 
 		/**
 		 * WordPress version compatibility
+		 * Check installed WordPress version for compatibility
 		 *
 		 * @package          BNS_Early_Adopter
 		 * @since            0.1
@@ -101,10 +102,15 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		 * @internal         Requires PHP5 or greater
 		 * @internal         WordPress 3.2 and newer require PHP5
 		 * Add i18n compatibility
+		 *
+		 * @version          0.8
+		 * @date             May 3, 2014
+		 * @internal         Requires WordPress version 3.6
+		 * @internal         @uses shortcode_atts with optional shortcode filter parameter
 		 */
 		global $wp_version;
-		$exit_message = __( 'BNS Early Adopter requires WordPress version 3.2 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-ea' );
-		if ( version_compare( $wp_version, "3.2", "<" ) ) {
+		$exit_message = __( 'BNS Early Adopter requires WordPress version 3.6 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-ea' );
+		if ( version_compare( $wp_version, "3.6", "<" ) ) {
 			exit ( $exit_message );
 		}
 		/** End if - version compare */
@@ -494,22 +500,26 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	/**
 	 * BNSEA Shortcode
 	 *
-	 * @package BNS_Early_Adopter
-	 * @since   0.2
+	 * @package    BNS_Early_Adopter
+	 * @since      0.2
 	 *
 	 * @param   $atts
 	 *
-	 * @uses    shortcode_atts
-	 * @uses    the_widget
+	 * @uses       shortcode_atts
+	 * @uses       the_widget
 	 *
 	 * @return  string
 	 *
-	 * @version 0.3
+	 * @version    0.3
 	 * Added release candidate option
 	 *
-	 * @version 0.5
-	 * @date    November 26, 2012
+	 * @version    0.5
+	 * @date       November 26, 2012
 	 * Optimized output buffer code
+	 *
+	 * @version    0.8
+	 * @date       May 3, 2014
+	 * Added optional shortcode_atts filter variable
 	 */
 	function bnsea_shortcode( $atts ) {
 		/** Get ready to capture the elusive widget output */
@@ -524,7 +534,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 					'show_rc'     => '',
 					'show_stable' => '',
 					'only_admin'  => ''
-				), $atts
+				), $atts, 'bnsea'
 			),
 			$args = array(
 				/** clear variables defined by theme for widgets */
@@ -537,6 +547,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		/** Get the_widget output and put into its own container */
 		$bnsea_content = ob_get_clean();
 
+		/** @var string $bnsea_content - wrapped in its own class for CSS specificity */
 		$bnsea_content = '<div class="bnsea-shortcode">' . $bnsea_content . '</div>';
 
 		return $bnsea_content;

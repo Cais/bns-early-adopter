@@ -65,6 +65,8 @@ Please stay current with your WordPress installation, your active theme, and you
 == Changelog ==
 = 0.8 =
 * Released May 2014
+* Added optional shortcode_atts filter variable
+* Updated required version of WordPress to 3.6
 * Updated compatibility version
 * Updated copyright years
 
