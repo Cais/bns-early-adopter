@@ -173,7 +173,8 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		/** Move to use generic folder for all "BNS" plugins to use */
 		if ( is_readable( BNS_CUSTOM_PATH . 'bnsea-custom-style.css' ) ) {
 			wp_enqueue_style( 'BNSEA-Custom-Style', BNS_CUSTOM_URL . 'bnsea-custom-style.css', array(), $bnsea_data['Version'], 'screen' );
-		} /** End if - is readable */
+		}
+		/** End if - is readable */
 
 	}
 

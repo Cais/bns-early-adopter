@@ -33,6 +33,9 @@ NB: Custom CSS may be required when this shortcode is used with some Themes.
 = Q: Why would I want to use this plugin / widget? =
 To show your faith in WordPress code and the developers who write it.
 
+= Q: My custom styles are no working, what happened? =
+WordPress essentially removes the existing files and folders of a plugin and replaces them with the new updated package, including any custom stylesheet you may have added. This would remove you old customizations. To future proof these additions you can now use the `/bns-customs/` folder (you may need to create this folder) under `/wp-content/`.
+
 == Screenshots ==
 1. Default widget options panel
 
@@ -67,6 +70,7 @@ Please stay current with your WordPress installation, your active theme, and you
 * Released May 2014
 * Added optional shortcode_atts filter variable
 * Added `plugin_data` method
+* Added new FAQ referencing the `/bns-customs/` folder location
 * Define location for BNS plugin customizations
 * Move to use generic folder for all "BNS" plugins to use
 * Updated required version of WordPress to 3.6
