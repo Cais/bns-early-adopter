@@ -67,6 +67,7 @@ Please stay current with your WordPress installation, your active theme, and you
 * Released May 2014
 * Added optional shortcode_atts filter variable
 * Updated required version of WordPress to 3.6
+* Added `plugin_data` method
 * Updated compatibility version
 * Updated copyright years
 

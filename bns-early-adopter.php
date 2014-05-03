@@ -558,6 +558,27 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 
 
 	/**
+	 * Plugin Data
+	 * Returns the plugin header data as an array
+	 *
+	 * @package    BNS_Early_Adopter
+	 * @since      o.8
+	 *
+	 * @uses       get_plugin_data
+	 *
+	 * @return array
+	 */
+	function plugin_data() {
+		/** Call the wp-admin plugin code */
+		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+		/** @var $plugin_data - holds the plugin header data */
+		$plugin_data = get_plugin_data( __FILE__ );
+
+		return $plugin_data;
+	} /** End function - plugin data */
+
+
+	/**
 	 * Register BNS Early Adopter Widget
 	 *
 	 * @package BNS_Early_Adopter
