@@ -154,12 +154,14 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	 * @version 0.6
 	 * @date    December 13, 2012
 	 * Renamed to `scripts_and_styles`
+	 *
+	 * @version	0.8
+	 * @date	May 3, 2014
+	 * Apply `plugin_data` method
 	 */
 	function scripts_and_styles() {
-		/** Call the wp-admin plugin code */
-		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
-		/** @var $bnsea_data - holds the plugin header data */
-		$bnsea_data = get_plugin_data( __FILE__ );
+		/** @var object $bnsea_data - contains plugin header data */
+		$bnsea_data = $this->plugin_data();
 
 		/** Enqueue Scripts */
 		/** Enqueue Style Sheets */
