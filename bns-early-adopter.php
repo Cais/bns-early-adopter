@@ -60,53 +60,30 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	 * BNS Early Adopter Widget / Constructor
 	 * Extends the WP_Widget class and adds other related functionality
 	 *
-	 * @package         BNS_Early_Adopter
-	 * @since           0.1
+	 * @package          BNS_Early_Adopter
+	 * @since            0.1
 	 *
-	 * @uses    (class) WP_Widget
-	 * @uses            add_action
-	 * @uses            add_shortcode
+	 * @internal         Requires WordPress version 3.6
+	 * @internal         @uses shortcode_atts with optional shortcode filter parameter
 	 *
-	 * @version         0.6
-	 * @date            December 13, 2012
+	 * @uses    (global) $wp_version
+	 * @uses    (class)  WP_Widget
+	 * @uses             add_action
+	 * @uses             add_shortcode
+	 *
+	 * @version          0.6
+	 * @date             December 13, 2012
 	 * Changed constructor function name to __construct (i.e.: PHP5 code format)
 	 * Moved activation functions and related calls into class constructor
+	 *
+	 * @version          0.8
+	 * @date             May 3, 2014
+	 * Define location for BNS plugin customizations
 	 */
 	function __construct() {
-		/** Widget Settings */
-		$widget_ops = array(
-			'classname'   => 'bns-early-adopter',
-			'description' => __( 'White knuckling your active WordPress version? Show it off!', 'bns-ea' )
-		);
-
-		/** Widget Control Settings */
-		$control_ops = array(
-			'width'   => '200',
-			'id_base' => 'bns-early-adopter'
-		);
-
-		/** Create the Widget */
-		$this->WP_Widget( 'bns-early-adopter', 'BNS Early Adopter', $widget_ops, $control_ops );
-
 		/**
 		 * WordPress version compatibility
 		 * Check installed WordPress version for compatibility
-		 *
-		 * @package          BNS_Early_Adopter
-		 * @since            0.1
-		 *
-		 * @uses    (global) $wp_version
-		 *
-		 * @version          0.6
-		 * @date             December 13, 2012
-		 * @internal         Requires PHP5 or greater
-		 * @internal         WordPress 3.2 and newer require PHP5
-		 * Add i18n compatibility
-		 *
-		 * @version          0.8
-		 * @date             May 3, 2014
-		 * @internal         Requires WordPress version 3.6
-		 * @internal         @uses shortcode_atts with optional shortcode filter parameter
 		 */
 		global $wp_version;
 		$exit_message = __( 'BNS Early Adopter requires WordPress version 3.6 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-ea' );
@@ -122,6 +99,25 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 				'scripts_and_styles'
 			)
 		);
+
+		/** Widget Settings */
+		$widget_ops = array(
+			'classname'   => 'bns-early-adopter',
+			'description' => __( 'White knuckling your active WordPress version? Show it off!', 'bns-ea' )
+		);
+
+		/** Widget Control Settings */
+		$control_ops = array(
+			'width'   => '200',
+			'id_base' => 'bns-early-adopter'
+		);
+
+		/** Create the Widget */
+		$this->WP_Widget( 'bns-early-adopter', 'BNS Early Adopter', $widget_ops, $control_ops );
+
+		/** Define location for BNS plugin customizations */
+		define( 'BNS_CUSTOM_PATH', WP_CONTENT_DIR . '/bns-customs/' );
+		define( 'BNS_CUSTOM_URL', content_url( '/bns-customs/' ) );
 
 		/** Add Shortcode */
 		add_shortcode( 'bnsea', array( $this, 'bnsea_shortcode' ) );
@@ -158,6 +154,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	 * @version    0.8
 	 * @date       May 3, 2014
 	 * Apply `plugin_data` method
+	 * Move to use generic folder for all "BNS" plugins to use
 	 */
 	function scripts_and_styles() {
 		/** @var object $bnsea_data - contains plugin header data */
@@ -166,10 +163,17 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		/** Enqueue Scripts */
 		/** Enqueue Style Sheets */
 		wp_enqueue_style( 'BNSEA-Style', plugin_dir_url( __FILE__ ) . 'bnsea-style.css', array(), $bnsea_data['Version'], 'screen' );
+
+		/** This location is not recommended as it is not upgrade safe */
 		if ( is_readable( plugin_dir_path( __FILE__ ) . 'bnsea-custom-style.css' ) ) {
 			wp_enqueue_style( 'BNSEA-Custom-Style', plugin_dir_url( __FILE__ ) . 'bnsea-custom-style.css', array(), $bnsea_data['Version'], 'screen' );
 		}
 		/** End if - is readable */
+
+		/** Move to use generic folder for all "BNS" plugins to use */
+		if ( is_readable( BNS_CUSTOM_PATH . 'bnsea-custom-style.css' ) ) {
+			wp_enqueue_style( 'BNSEA-Custom-Style', BNS_CUSTOM_URL . 'bnsea-custom-style.css', array(), $bnsea_data['Version'], 'screen' );
+		} /** End if - is readable */
 
 	}
 

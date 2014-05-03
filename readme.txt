@@ -66,8 +66,10 @@ Please stay current with your WordPress installation, your active theme, and you
 = 0.8 =
 * Released May 2014
 * Added optional shortcode_atts filter variable
-* Updated required version of WordPress to 3.6
 * Added `plugin_data` method
+* Define location for BNS plugin customizations
+* Move to use generic folder for all "BNS" plugins to use
+* Updated required version of WordPress to 3.6
 * Updated compatibility version
 * Updated copyright years
 
