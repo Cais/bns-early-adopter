@@ -139,24 +139,24 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	 * Adds plugin stylesheet (and scripts); also allows for custom stylesheet
 	 * to be added by end-user.
 	 *
-	 * @package BNS_Early_Adopter
-	 * @since   0.1
+	 * @package    BNS_Early_Adopter
+	 * @since      0.1
 	 *
-	 * @uses    get_plugin_data
-	 * @uses    plugin_dir_url
-	 * @uses    plugin_dir_path
-	 * @uses    wp_enqueue_style
+	 * @uses       BNS_Early_Adopter::plugin_data
+	 * @uses       plugin_dir_url
+	 * @uses       plugin_dir_path
+	 * @uses       wp_enqueue_style
 	 *
-	 * @version 0.4.2
-	 * @date    August 2, 2012
+	 * @version    0.4.2
+	 * @date       August 2, 2012
 	 * Programmatically add version number to enqueue calls
 	 *
-	 * @version 0.6
-	 * @date    December 13, 2012
+	 * @version    0.6
+	 * @date       December 13, 2012
 	 * Renamed to `scripts_and_styles`
 	 *
-	 * @version	0.8
-	 * @date	May 3, 2014
+	 * @version    0.8
+	 * @date       May 3, 2014
 	 * Apply `plugin_data` method
 	 */
 	function scripts_and_styles() {
@@ -564,7 +564,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	 * Returns the plugin header data as an array
 	 *
 	 * @package    BNS_Early_Adopter
-	 * @since      o.8
+	 * @since      0.8
 	 *
 	 * @uses       get_plugin_data
 	 *
