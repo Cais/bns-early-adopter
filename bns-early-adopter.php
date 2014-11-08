@@ -3,8 +3,8 @@
 Plugin Name: BNS Early Adopter
 Plugin URI: http://buynowshop.com/plugins/bns-early-adopter
 Description: Show off you are an early adopter of WordPress (alpha, beta, release candidate, and/or stable versions)
-Version: 0.8
-TextDomain: bns-ea
+Version: 0.9
+TextDomain: bns-early-adopter
 Author: Edward Caissie
 Author URI: http://edwardcaissie.com/
 License: GNU General Public License v2
@@ -18,7 +18,7 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * stable versions).
  *
  * @package        BNS_Early_Adopter
- * @version        0.8
+ * @version        0.9
  *
  * @link           http://buynowshop.com/plugins/bns-early-adopter/
  * @link           https://github.com/Cais/bns-early-adopter/
@@ -47,12 +47,8 @@ License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
  * The license for this software can also likely be found here:
  * http://www.gnu.org/licenses/gpl-2.0.html
  *
- * @version        0.7
- * @date           July 14, 2013
- *
- * @version        0.7.1
- * @date           December 2013
- * Code Reformatting and version compatibility update
+ * @version        0.9
+ * @date           November 2014
  */
 class BNS_Early_Adopter_Widget extends WP_Widget {
 
@@ -66,8 +62,8 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	 * @internal         Requires WordPress version 3.6
 	 * @internal         @uses shortcode_atts with optional shortcode filter parameter
 	 *
-	 * @uses    (global) $wp_version
-	 * @uses    (class)  WP_Widget
+	 * @uses             (global) $wp_version
+	 * @uses             (class)  WP_Widget
 	 * @uses             add_action
 	 * @uses             add_shortcode
 	 *
@@ -86,7 +82,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		 * Check installed WordPress version for compatibility
 		 */
 		global $wp_version;
-		$exit_message = __( 'BNS Early Adopter requires WordPress version 3.6 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-ea' );
+		$exit_message = __( 'BNS Early Adopter requires WordPress version 3.6 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-early-adopter' );
 		if ( version_compare( $wp_version, "3.6", "<" ) ) {
 			exit ( $exit_message );
 		}
@@ -103,7 +99,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		/** Widget Settings */
 		$widget_ops = array(
 			'classname'   => 'bns-early-adopter',
-			'description' => __( 'White knuckling your active WordPress version? Show it off!', 'bns-ea' )
+			'description' => __( 'White knuckling your active WordPress version? Show it off!', 'bns-early-adopter' )
 		);
 
 		/** Widget Control Settings */
@@ -191,7 +187,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	 * @param   $args
 	 * @param   $instance
 	 *
-	 * @uses    (global) wp_version
+	 * @uses             (global) wp_version
 	 * @uses             apply_filters
 	 * @uses             current_user_can
 	 * @uses             is_user_logged_in
@@ -233,8 +229,8 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		/** Step through the version string looking for an "a" for alpha, "b" for beta, or "r" for release candidate */
 		for ( $i = 1; $i < strlen( $version_string ); $i ++ ) {
 			if ( 'a' == substr( $version_string, $i, 1 )
-				 || 'b' == substr( $version_string, $i, 1 )
-				 || 'r' == substr( $version_string, $i, 1 )
+			     || 'b' == substr( $version_string, $i, 1 )
+			     || 'r' == substr( $version_string, $i, 1 )
 			) {
 				/** @var    string $test_character - used to assign $ea_version string */
 				$test_character = substr( $version_string, $i, 1 );
@@ -273,7 +269,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 				echo '<div class="bnsea-admin-only">';
 				$bnsea_admin_only_text_output = apply_filters(
 					'bnsea_admin_only_text',
-					sprintf( '<span class="bnsea-admin-only-text">' . __( '%1$s', 'bns-ea' ) . '</span>', 'Administrator ONLY View' )
+					sprintf( '<span class="bnsea-admin-only-text">' . __( '%1$s', 'bns-early-adopter' ) . '</span>', 'Administrator ONLY View' )
 				);
 				echo $bnsea_admin_only_text_output;
 			} else {
@@ -299,12 +295,12 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		 * Get fancy here and write the output with correct grammar
 		 */
 		if ( ( 'alpha' == $ea_version ) && ( $show_alpha ) ) {
-			$output = apply_filters( 'bnsea_alpha_text', sprintf( __( "We are running an %s version of WordPress!", 'bns-ea' ), $ea_version ) );
+			$output = apply_filters( 'bnsea_alpha_text', sprintf( __( "We are running an %s version of WordPress!", 'bns-early-adopter' ), $ea_version ) );
 		} elseif ( ( ( 'beta' == $ea_version ) && $show_beta )
-				   || ( ( 'stable' == $ea_version ) && $show_stable )
-				   || ( ( 'release candidate' == $ea_version ) && $show_rc )
+		           || ( ( 'stable' == $ea_version ) && $show_stable )
+		           || ( ( 'release candidate' == $ea_version ) && $show_rc )
 		) {
-			$output = apply_filters( 'bnsea_beta_text', sprintf( __( "We are running a %s version of WordPress!", 'bns-ea' ), $ea_version ) );
+			$output = apply_filters( 'bnsea_beta_text', sprintf( __( "We are running a %s version of WordPress!", 'bns-early-adopter' ), $ea_version ) );
 		} else {
 			/** @var null $output - widgets must have output of some sort or the Gods of programming will rain hellfire down on your code */
 			$output = '';
@@ -367,9 +363,9 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	function bnsea_display( $instance, $ea_version ) {
 
 		if ( ( $instance['show_alpha'] && ( 'alpha' == $ea_version ) )
-			 || ( $instance['show_beta'] && ( 'beta' == $ea_version ) )
-			 || ( $instance['show_rc'] && ( 'release candidate' == $ea_version ) )
-			 || ( $instance['show_stable'] && ( 'stable' == $ea_version ) )
+		     || ( $instance['show_beta'] && ( 'beta' == $ea_version ) )
+		     || ( $instance['show_rc'] && ( 'release candidate' == $ea_version ) )
+		     || ( $instance['show_stable'] && ( 'stable' == $ea_version ) )
 		) {
 
 			$ea_display = true;
@@ -440,7 +436,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	function form( $instance ) {
 		/** Set default widget values */
 		$defaults = array(
-			'title'       => __( 'Early Adopter', 'bns-ea' ),
+			'title'       => __( 'Early Adopter', 'bns-early-adopter' ),
 			'show_alpha'  => '',
 			'show_beta'   => '',
 			'show_rc'     => '',
@@ -450,52 +446,52 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		$instance = wp_parse_args( (array) $instance, $defaults ); ?>
 
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'bns-ea' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'bns-early-adopter' ); ?></label>
 			<input id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>"
-				   value="<?php echo $instance['title']; ?>" style="width:100%;" />
+			       value="<?php echo $instance['title']; ?>" style="width:100%;" />
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( (bool) $instance['show_alpha'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_alpha' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_alpha' ); ?>" />
-			<label for="<?php echo $this->get_field_id( 'show_alpha' ); ?>"><?php _e( 'Show Alpha?', 'bns-ea' ); ?></label>
+			       id="<?php echo $this->get_field_id( 'show_alpha' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_alpha' ); ?>" />
+			<label for="<?php echo $this->get_field_id( 'show_alpha' ); ?>"><?php _e( 'Show Alpha?', 'bns-early-adopter' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( (bool) $instance['show_beta'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_beta' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_beta' ); ?>" />
-			<label for="<?php echo $this->get_field_id( 'show_beta' ); ?>"><?php _e( 'Show Beta?', 'bns-ea' ); ?></label>
+			       id="<?php echo $this->get_field_id( 'show_beta' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_beta' ); ?>" />
+			<label for="<?php echo $this->get_field_id( 'show_beta' ); ?>"><?php _e( 'Show Beta?', 'bns-early-adopter' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( (bool) $instance['show_rc'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_rc' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_rc' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'show_rc' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_rc' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'show_rc' ); ?>"><?php _e( 'Show Release Candidate?', 'bns-ea' ); ?></label>
+				for="<?php echo $this->get_field_id( 'show_rc' ); ?>"><?php _e( 'Show Release Candidate?', 'bns-early-adopter' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( (bool) $instance['show_stable'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'show_stable' ); ?>"
-				   name="<?php echo $this->get_field_name( 'show_stable' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'show_stable' ); ?>"
+			       name="<?php echo $this->get_field_name( 'show_stable' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'show_stable' ); ?>"><?php _e( 'Show Stable?', 'bns-ea' ); ?></label>
+				for="<?php echo $this->get_field_id( 'show_stable' ); ?>"><?php _e( 'Show Stable?', 'bns-early-adopter' ); ?></label>
 		</p>
 
 		<p>
 			<input class="checkbox" type="checkbox" <?php checked( (bool) $instance['only_admin'], true ); ?>
-				   id="<?php echo $this->get_field_id( 'only_admin' ); ?>"
-				   name="<?php echo $this->get_field_name( 'only_admin' ); ?>" />
+			       id="<?php echo $this->get_field_id( 'only_admin' ); ?>"
+			       name="<?php echo $this->get_field_name( 'only_admin' ); ?>" />
 			<label
-				for="<?php echo $this->get_field_id( 'only_admin' ); ?>"><?php _e( 'Only Show Administrators?', 'bns-ea' ); ?></label>
+				for="<?php echo $this->get_field_id( 'only_admin' ); ?>"><?php _e( 'Only Show Administrators?', 'bns-early-adopter' ); ?></label>
 		</p>
 
 		<hr />
 		<p>
-			<?php _e( 'NB: If no version is checked, or no matching version is found, the widget will not display.', 'bns-ea' ); ?>
+			<?php _e( 'NB: If no version is checked, or no matching version is found, the widget will not display.', 'bns-early-adopter' ); ?>
 		</p>
 
 	<?php

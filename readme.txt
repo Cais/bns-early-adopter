@@ -4,7 +4,7 @@ Donate link: http://buynowshop.com
 Tags: admin, widget-only
 Requires at least: 3.2
 Tested up to: 3.9
-Stable tag: 0.8
+Stable tag: 0.9
 License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
 
@@ -66,6 +66,10 @@ WordPress essentially removes the existing files and folders of a plugin and rep
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 0.9 =
+* Released November 2014
+* Changed textdomain to `bns-early-adopter` from `bns-ea`
+
 = 0.8 =
 * Released May 2014
 * Added optional shortcode_atts filter variable
