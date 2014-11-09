@@ -122,7 +122,6 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		add_action( 'widgets_init', array( $this, 'load_bnsea_widget' ) );
 
 	}
-
 	/** End function - construct */
 
 
@@ -173,7 +172,6 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		/** End if - is readable */
 
 	}
-
 	/** End function - scripts and styles */
 
 
@@ -187,22 +185,21 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	 * @param   $args
 	 * @param   $instance
 	 *
-	 * @uses             (global) wp_version
+	 * @uses             (GLOBAL) wp_version
+	 * @uses             BNS_Early_Adopter_Widget::bnsea_display
+	 * @uses             __
+	 * @uses             _x
 	 * @uses             apply_filters
 	 * @uses             current_user_can
 	 * @uses             is_user_logged_in
 	 *
-	 * @version          0.6
-	 * @date             February 13, 2013
-	 * Moved `bnsea_display` out of `widget` method
-	 *
-	 * @version          0.6.1
-	 * @date             April 2, 2013
-	 * Fixed conditional logic used to display plugin
-	 *
 	 * @version          0.7
 	 * @date             July 14, 2013
 	 * Corrected Administrator Only conditional and added admin only classes
+	 *
+	 * @version          0.9
+	 * @date             November 8, 2014
+	 * Corrected i18n code for 'Administrator ONLY View' text
 	 */
 	function widget( $args, $instance ) {
 		/** Get widget setting values */
@@ -269,7 +266,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 				echo '<div class="bnsea-admin-only">';
 				$bnsea_admin_only_text_output = apply_filters(
 					'bnsea_admin_only_text',
-					sprintf( '<span class="bnsea-admin-only-text">' . __( '%1$s', 'bns-early-adopter' ) . '</span>', 'Administrator ONLY View' )
+					sprintf( '<span class="bnsea-admin-only-text">%1$s</span>', __( 'Administrator ONLY View', 'bns-early-adopter' ) )
 				);
 				echo $bnsea_admin_only_text_output;
 			} else {
@@ -295,12 +292,12 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		 * Get fancy here and write the output with correct grammar
 		 */
 		if ( ( 'alpha' == $ea_version ) && ( $show_alpha ) ) {
-			$output = apply_filters( 'bnsea_alpha_text', sprintf( __( "We are running an %s version of WordPress!", 'bns-early-adopter' ), $ea_version ) );
+			$output = apply_filters( 'bnsea_alpha_text', sprintf( _x( "We are running an %s version of WordPress!", '%s is a PHP replacement variable', 'bns-early-adopter' ), $ea_version ) );
 		} elseif ( ( ( 'beta' == $ea_version ) && $show_beta )
 		           || ( ( 'stable' == $ea_version ) && $show_stable )
 		           || ( ( 'release candidate' == $ea_version ) && $show_rc )
 		) {
-			$output = apply_filters( 'bnsea_beta_text', sprintf( __( "We are running a %s version of WordPress!", 'bns-early-adopter' ), $ea_version ) );
+			$output = apply_filters( 'bnsea_beta_text', sprintf( _x( "We are running a %s version of WordPress!", '%s is a PHP replacement variable', 'bns-early-adopter' ), $ea_version ) );
 		} else {
 			/** @var null $output - widgets must have output of some sort or the Gods of programming will rain hellfire down on your code */
 			$output = '';
@@ -331,7 +328,6 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		/** End if - not bnsea display returns true */
 
 	}
-
 	/** End function - widget */
 
 
@@ -381,7 +377,6 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		return $ea_display;
 
 	}
-
 	/** End function - bnsea display */
 
 
@@ -413,7 +408,6 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		return $instance;
 
 	}
-
 	/** End function - update */
 
 
@@ -425,8 +419,12 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	 *
 	 * @param   array $instance - widget options
 	 *
+	 * @uses    WP_Widget::get_field_id
+	 * @uses    WP_Widget::get_field_name
+	 * @uses    _e
+	 * @uses    _x
 	 * @uses    checked
-	 * @uses    get_field_id
+	 * @uses    wp_parse_args
 	 *
 	 * @return string|void
 	 *
@@ -436,7 +434,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	function form( $instance ) {
 		/** Set default widget values */
 		$defaults = array(
-			'title'       => __( 'Early Adopter', 'bns-early-adopter' ),
+			'title'       => _x( 'Early Adopter', 'used as a title', 'bns-early-adopter' ),
 			'show_alpha'  => '',
 			'show_beta'   => '',
 			'show_rc'     => '',
@@ -496,7 +494,6 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 
 	<?php
 	}
-
 	/** End function - form */
 
 
@@ -556,7 +553,6 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		return $bnsea_content;
 
 	}
-
 	/** End function - shortcode */
 
 
@@ -578,7 +574,8 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		$plugin_data = get_plugin_data( __FILE__ );
 
 		return $plugin_data;
-	} /** End function - plugin data */
+	}
+	/** End function - plugin data */
 
 
 	/**
