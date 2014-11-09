@@ -56,25 +56,26 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	 * BNS Early Adopter Widget / Constructor
 	 * Extends the WP_Widget class and adds other related functionality
 	 *
-	 * @package          BNS_Early_Adopter
-	 * @since            0.1
+	 * @package     BNS_Early_Adopter
+	 * @since       0.1
 	 *
-	 * @internal         Requires WordPress version 3.6
-	 * @internal         @uses shortcode_atts with optional shortcode filter parameter
+	 * @internal    Requires WordPress version 3.6
+	 * @internal    @uses shortcode_atts with optional shortcode filter parameter
 	 *
-	 * @uses             (global) $wp_version
-	 * @uses             (class)  WP_Widget
-	 * @uses             add_action
-	 * @uses             add_shortcode
+	 * @uses        (CONSTANT) WP_CONTENT_DIR
+	 * @uses        (GLOBAL) $wp_version
+	 * @uses        (CLASS)  WP_Widget
+	 * @uses        add_action
+	 * @uses        add_shortcode
+	 * @uses        content_url
 	 *
-	 * @version          0.6
-	 * @date             December 13, 2012
-	 * Changed constructor function name to __construct (i.e.: PHP5 code format)
-	 * Moved activation functions and related calls into class constructor
-	 *
-	 * @version          0.8
-	 * @date             May 3, 2014
+	 * @version     0.8
+	 * @date        May 3, 2014
 	 * Define location for BNS plugin customizations
+	 *
+	 * @version     0.9
+	 * @date        November 8, 2014
+	 * Added sanity checks for `BNS_CUSTOM_*` define statements
 	 */
 	function __construct() {
 		/**
@@ -112,8 +113,14 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		$this->WP_Widget( 'bns-early-adopter', 'BNS Early Adopter', $widget_ops, $control_ops );
 
 		/** Define location for BNS plugin customizations */
-		define( 'BNS_CUSTOM_PATH', WP_CONTENT_DIR . '/bns-customs/' );
-		define( 'BNS_CUSTOM_URL', content_url( '/bns-customs/' ) );
+		if ( ! defined( 'BNS_CUSTOM_PATH' ) ) {
+			define( 'BNS_CUSTOM_PATH', WP_CONTENT_DIR . '/bns-customs/' );
+		}
+		/** End if - not defined */
+		if ( ! defined( 'BNS_CUSTOM_URL' ) ) {
+			define( 'BNS_CUSTOM_URL', content_url( '/bns-customs/' ) );
+		}
+		/** End if - not defined */
 
 		/** Add Shortcode */
 		add_shortcode( 'bnsea', array( $this, 'bnsea_shortcode' ) );

@@ -69,6 +69,7 @@ Please stay current with your WordPress installation, your active theme, and you
 = 0.9 =
 * Released November 2014
 * Changed textdomain to `bns-early-adopter` from `bns-ea`
+* Added sanity checks for `BNS_CUSTOM_*` define statements
 
 = 0.8 =
 * Released May 2014
