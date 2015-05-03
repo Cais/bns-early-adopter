@@ -69,6 +69,7 @@ Please stay current with your WordPress installation, your active theme, and you
 = 1.0 =
 * Released May 2015
 * Added "BNS Early Adopter Update Message" function
+* Removed extraneous comments and updated copyright years
 
 = 0.9 =
 * Released November 2014
