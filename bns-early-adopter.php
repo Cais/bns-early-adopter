@@ -65,6 +65,7 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 	 * @uses        (CONSTANT) WP_CONTENT_DIR
 	 * @uses        (GLOBAL) $wp_version
 	 * @uses        (CLASS)  WP_Widget
+	 * @uses        __
 	 * @uses        add_action
 	 * @uses        add_shortcode
 	 * @uses        content_url
