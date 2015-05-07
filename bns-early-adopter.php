@@ -85,7 +85,9 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		 * Check installed WordPress version for compatibility
 		 */
 		global $wp_version;
-		$exit_message = __( 'BNS Early Adopter requires WordPress version 3.6 or newer. <a href="http://codex.wordpress.org/Upgrading_WordPress">Please Update!</a>', 'bns-early-adopter' );
+		$exit_message = __( 'BNS Early Adopter requires WordPress version 3.6 or newer.', 'bns-early-adopter' )
+		                . ' '
+		                . sprintf( '<a href="http://codex.wordpress.org/Upgrading_WordPress">%1$s</a>', __( 'Please Update!', 'bns-early-adopter' ) );
 		if ( version_compare( $wp_version, "3.6", "<" ) ) {
 			exit ( $exit_message );
 		}

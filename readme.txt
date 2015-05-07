@@ -3,7 +3,7 @@ Contributors: cais
 Donate link: http://buynowshop.com
 Tags: admin, version, shortcode, widget
 Requires at least: 3.6
-Tested up to: 4.2.1
+Tested up to: 4.2.2
 Stable tag: 1.0
 License: GNU General Public License v2
 License URI: http://www.gnu.org/licenses/old-licenses/gpl-2.0.html
@@ -69,6 +69,7 @@ Please stay current with your WordPress installation, your active theme, and you
 = 1.0 =
 * Released May 2015
 * Added "BNS Early Adopter Update Message" function
+* Added better i18n support
 * Minor documentation updates
 * Removed extraneous comments and updated copyright years
 
