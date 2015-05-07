@@ -70,6 +70,7 @@ Please stay current with your WordPress installation, your active theme, and you
 * Released May 2015
 * Added "BNS Early Adopter Update Message" function
 * Added better i18n support
+* Added default `.po` and `en_CA` translation files
 * Minor documentation updates
 * Removed extraneous comments and updated copyright years
 

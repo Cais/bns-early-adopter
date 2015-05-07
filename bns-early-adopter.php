@@ -129,6 +129,9 @@ class BNS_Early_Adopter_Widget extends WP_Widget {
 		/** Add widget */
 		add_action( 'widgets_init', array( $this, 'load_bnsea_widget' ) );
 
+		/** Add i18n support */
+		load_plugin_textdomain( 'bns-early-adopter' );
+
 	}
 
 
