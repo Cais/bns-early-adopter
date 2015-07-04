@@ -66,6 +66,10 @@ WordPress essentially removes the existing files and folders of a plugin and rep
 Please stay current with your WordPress installation, your active theme, and your plugins.
 
 == Changelog ==
+= 1.1 =
+* Released ...
+* Updated to use PHP5 constructor objects
+
 = 1.0 =
 * Released May 2015
 * Added "BNS Early Adopter Update Message" function
